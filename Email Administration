@@ -1,0 +1,145 @@
+package Email;
+import java.util.Scanner;
+public class Main 
+{
+    private String email, password, department,firstname,lastname,newline;
+    private int mailcap = 1000;
+    private Scanner sc = new Scanner (System.in);
+    private void generate_email ()// Debugging this.
+    {
+       email = new String();
+       email = firstname + "." + lastname  + "@" + department + ".IBM.com"  ; 	    	
+    }
+    private void decide_Department ()
+    {
+       int dept;	
+       System.out.println("Choose your department from given below\n 1: Sales 2: Development 3: Accounting 4: HR 5: None");
+       dept = sc.nextInt();
+       newline = sc.nextLine();
+       switch (dept)
+       {
+       case 1:
+    	   department = "Sales";
+    	   break;
+       case 2:
+    	   department = "Development";
+    	   break;
+       case 3:
+    	   department = "Accounting";
+    	   break;
+       case 4:
+    	   department = "HR";
+    	   break;
+       }    
+    }
+    boolean evaluate_password (String pass )
+    {
+    	int lower = 0, upper = 0, digit = 0, special = 0,i, asval;
+    	for ( i = 0 ; i < pass.length(); i++ )
+    	{
+    		asval = pass.charAt(i);
+    		if ( asval >= 97 && asval <= 122 )
+    		{
+    			lower++ ;
+    		}
+    		else if ( asval >= 65 && asval <= 90 )
+    		{
+    			upper++ ;
+    		}
+    		else if ( asval >= 48 && asval <= 57)
+    		{
+    			digit++ ;
+    		}
+    		else
+    		{
+    			special++;
+    		}
+    	}
+    	if ( lower >= 1 && upper >= 1 && digit >= 1 && special >= 1 )
+    	{
+    		return true ;
+    	}
+    	else
+    	{
+    		return false ;
+    	}
+    }
+    private void set_password ()
+    {
+    	String temp1;
+    	System.out.println("New Password should contain atleast one special character, one digit, one lowercase alphabet, one uppercase alphabet");
+    	while ( true ) 
+    	{
+    		temp1 = sc.nextLine();
+    		if ( evaluate_password(temp1) )
+    		{
+    			break ;
+    		}
+    		System.out.println("New Entered Password is not valid. Please enter another");
+    	}
+    	password = temp1;
+    	System.out.println("Password changed successfully") ;
+    }
+    private void generate_password ()
+    {
+    	//While concatenating strings with + operator, a null reference variable changes to “null” (i.e. a String containing null 
+    	//  as its contents.). That’s why str becomes “null” and output is nullabc.
+    	int i, index;
+    	password = new String();
+    	String AlphaNumeric = "qwertyuiopasdfghjklzxcvbnm" + "QWERTYUIOPASDFGHJKLZXCVBNM" + "1234567890" + "!~`@#%^&*()[]{}-_=+;:.,></?''\" ";
+    	for ( i = 1 ; i <= 8; i++ )
+    	{
+    		index = (int) (AlphaNumeric.length() * Math.random()) ;
+    		password += AlphaNumeric.charAt(index);
+    	}
+    	System.out.println("Your Password is " + password );
+    }
+    private void set_email()
+    {
+       email = sc.next();
+       newline = sc.nextLine();
+       System.out.println("Your new email is "+ email);
+    }
+    private void setmail_capacity()
+    {
+    	mailcap = sc.nextInt();
+        newline = sc.nextLine();
+    	System.out.println ("mailcapacity changed to "+ mailcap);
+    }
+    private void getName()
+    {
+    	System.out.println("Name: "+firstname + lastname);
+    }
+    private void getMailcap()
+    {
+    	System.out.println("Mailbox capacity: "+mailcap);
+    }
+    private void getemail()
+    {
+    	System.out.println("Your Email is:"+ email);
+    }
+	public static void main( String[] args) 
+	{
+		Main obj = new Main();
+        System.out.println("Enter your first name");
+        obj.firstname = obj.sc.next();
+        obj.newline = obj.sc.nextLine();
+        System.out.println("Enter your last name");
+        obj.lastname = obj.sc.next();
+        obj.newline = obj.sc.nextLine();
+        obj.decide_Department();
+        obj.generate_password();
+        obj.generate_email();
+        obj.getemail();
+        obj.getMailcap();
+        obj.getName();
+        obj.set_email();
+        obj.setmail_capacity();
+        obj.set_password();        
+	}
+}
+/*   Note: nextLine() reads the newline as a input and after reading newline, it stops reading.
+    next() reads the string and do not read newline. In some cases it reads newline but in our case it does not read newline as input. 
+    nextInt(): it only reads integer value and does not read newline.
+    Refer: https://stackoverflow.com/questions/32798803/understanding-scanners-nextline-next-and-nextint-methods
+ */
